@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+    <h1 style="font-family: 'Press Start 2P', monospace; animation: colorChange 2s infinite;">Welcome to FELONIX</h1>
+    
+    <div class="download-box">
+        <img src="ae.jpg" alt="FELONIX DB">
+        <p>Download felonix db image</p>
+        <a href="idef.html" class="go-button">GO</a>
+    </div>
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        @keyframes colorChange {
+            0% { color: rgb(255, 0, 0); }
+            25% { color: rgb(0, 255, 0); }
+            50% { color: rgb(0, 0, 255); }
+            75% { color: rgb(255, 255, 0); }
+            100% { color: rgb(255, 0, 255); }
+        }
+        
+        .download-box {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        
+        .download-box img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        
+        .download-box p {
+            margin: 10px 0;
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .go-button {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .go-button:hover {
+            background: #764ba2;
+        }
+    </style>
+</body>
+</html>

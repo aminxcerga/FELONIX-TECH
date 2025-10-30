@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FELONIX DB __ IMAGE</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #1a1a1a, #2d2d2d, #3a3a3a, #2d2d2d, #1a1a1a);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            z-index: -1;
+        }
+        
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        .blur-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: -1;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #ffffff;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            letter-spacing: 2px;
+        }
+        
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        
+        .image-item {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .image-item:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .image-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .image-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .download-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+        
+        .download-btn:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 18px;
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            margin: 20px;
+        }
+        
+        .error {
+            text-align: center;
+            padding: 40px;
+            color: #e74c3c;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            margin: 20px;
+            border: 1px solid rgba(231, 76, 60, 0.3);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.95);
+            cursor: pointer;
+            backdrop-filter: blur(20px);
+        }
+        
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 90%;
+            max-height: 90%;
+        }
+        
+        .modal-content img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+        
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: #ffffff;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            transition: color 0.3s ease;
+        }
+        
+        .close:hover {
+            color: #e74c3c;
+        }
+        
+        .modal-download-btn {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            backdrop-filter: blur(10px);
+        }
+        
+        .modal-download-btn:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            transform: translateX(-50%) translateY(-2px);
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="blur-overlay"></div>
+    <div class="container">
+        <h1>FELONIX DB __ IMAGE</h1>
+        <div id="loading" class="loading">در حال بارگذاری تصاویر...</div>
+        <div id="gallery" class="gallery"></div>
+        <div id="error" class="error" style="display: none;"></div>
+    </div>
+
+    <div id="modal" class="modal">
+        <span class="close">&times;</span>
+        <div class="modal-content">
+            <img id="modal-image" src="" alt="">
+            <a id="modal-download-link" class="modal-download-btn" download>DOWNLOAD</a>
+        </div>
+    </div>
+
+    <script>
+        const BASE_URL = 'https://aminxcerga.github.io/FELONIX-TECH/data_manager/image/';
+        const API_URL = 'https://api.github.com/repos/aminxcerga/FELONIX-TECH/contents/data_manager/image';
+        
+        const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'svg'];
+        
+        async function fetchImages() {
+            try {
+                const response = await fetch(API_URL);
+                if (!response.ok) {
+                    throw new Error('خطا در دریافت اطلاعات از گیت‌هاب');
+                }
+                
+                const data = await response.json();
+                const images = data.filter(file => {
+                    const extension = file.name.split('.').pop().toLowerCase();
+                    return imageExtensions.includes(extension);
+                });
+                
+                displayImages(images);
+            } catch (error) {
+                showError('خطا در بارگذاری تصاویر: ' + error.message);
+            }
+        }
+        
+        function displayImages(images) {
+            const gallery = document.getElementById('gallery');
+            const loading = document.getElementById('loading');
+            
+            if (images.length === 0) {
+                showError('هیچ تصویری یافت نشد');
+                return;
+            }
+            
+            loading.style.display = 'none';
+            
+            images.forEach(image => {
+                const imageItem = document.createElement('div');
+                imageItem.className = 'image-item';
+                
+                const img = document.createElement('img');
+                img.src = BASE_URL + image.name;
+                img.alt = image.name;
+                img.loading = 'lazy';
+                img.onclick = () => openModal(BASE_URL + image.name, image.name);
+                
+                const downloadBtn = document.createElement('button');
+                downloadBtn.className = 'download-btn';
+                downloadBtn.textContent = 'DOWNLOAD';
+                downloadBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    downloadImage(BASE_URL + image.name, image.name);
+                };
+                
+                imageItem.appendChild(img);
+                imageItem.appendChild(downloadBtn);
+                gallery.appendChild(imageItem);
+            });
+        }
+        
+        function downloadImage(imageUrl, fileName) {
+            const link = document.createElement('a');
+            link.href = imageUrl;
+            link.download = fileName;
+            link.target = '_blank';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+        
+        function showError(message) {
+            const loading = document.getElementById('loading');
+            const error = document.getElementById('error');
+            loading.style.display = 'none';
+            error.style.display = 'block';
+            error.textContent = message;
+        }
+        
+        function openModal(imageSrc, fileName) {
+            const modal = document.getElementById('modal');
+            const modalImg = document.getElementById('modal-image');
+            const modalDownloadLink = document.getElementById('modal-download-link');
+            
+            modal.style.display = 'block';
+            modalImg.src = imageSrc;
+            modalDownloadLink.href = imageSrc;
+            modalDownloadLink.download = fileName;
+        }
+        
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            modal.style.display = 'none';
+        }
+        
+        // Event listeners
+        document.querySelector('.close').onclick = closeModal;
+        document.getElementById('modal').onclick = closeModal;
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+        
+        // Load images when page loads
+        window.onload = fetchImages;
+    </script>
+</body>
+</html>
