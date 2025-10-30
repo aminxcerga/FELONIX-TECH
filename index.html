@@ -9,6 +9,12 @@
 <body>
     <h1 style="font-family: 'Press Start 2P', monospace; animation: colorChange 2s infinite;">Welcome to FELONIX</h1>
     
+    <div class="ai-box">
+        <img src="ae2.jpg" alt="FELONIX AI">
+        <p>AI</p>
+        <a href="ai.html" class="go-button">GO</a>
+    </div>
+    
     <div class="download-box">
         <img src="ae.jpg" alt="FELONIX DB">
         <p>Download felonix db image</p>
@@ -33,6 +39,32 @@
             50% { color: rgb(0, 0, 255); }
             75% { color: rgb(255, 255, 0); }
             100% { color: rgb(255, 0, 255); }
+        }
+        
+        .ai-box {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        
+        .ai-box img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        
+        .ai-box p {
+            margin: 10px 0;
+            font-size: 14px;
+            color: #333;
         }
         
         .download-box {
