@@ -220,7 +220,7 @@
     <div class="blur-overlay"></div>
     <div class="container">
         <h1>FELONIX DB __ IMAGE</h1>
-        <div id="loading" class="loading">در حال بارگذاری تصاویر...</div>
+        <div id="loading" class="loading">LOADING...</div>
         <div id="gallery" class="gallery"></div>
         <div id="error" class="error" style="display: none;"></div>
     </div>
@@ -243,7 +243,7 @@
             try {
                 const response = await fetch(API_URL);
                 if (!response.ok) {
-                    throw new Error('خطا در دریافت اطلاعات از گیت‌هاب');
+                    throw new Error('GITHUB EROR 500');
                 }
                 
                 const data = await response.json();
@@ -254,7 +254,7 @@
                 
                 displayImages(images);
             } catch (error) {
-                showError('خطا در بارگذاری تصاویر: ' + error.message);
+                showError('EROR LOAD IMAGE: ' + error.message);
             }
         }
         
@@ -263,7 +263,7 @@
             const loading = document.getElementById('loading');
             
             if (images.length === 0) {
-                showError('هیچ تصویری یافت نشد');
+                showError('IMAGE NOT FOUND');
                 return;
             }
             
@@ -343,3 +343,4 @@
     </script>
 </body>
 </html>
+
